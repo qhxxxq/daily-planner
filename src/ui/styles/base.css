@@ -1,0 +1,272 @@
+/**
+ * 文件用途：基础变量、主题与通用控件。
+ * 定义全局颜色、字体、重置和基础按钮规则，是后续区域样式的公共基础。
+ */
+/* Theme primitives; legacy names alias semantic interaction colors. */
+:root,
+body[data-theme] {
+  color-scheme: light;
+  --bg: #f7f8fa;
+  --panel: #ffffff;
+  --panel-soft: #f7f8fa;
+  --text-primary: #252832;
+  --text-secondary: #667085;
+  --text-muted: #737b8c;
+  --accent: #6d5ef5;
+  --accent-soft: #eeebff;
+  --accent-strong: var(--accent);
+  --accent-pink: var(--accent);
+  --date-hover-bg: var(--accent-soft);
+  --border-soft: #e6e8ef;
+  --grid-line: #eceef3;
+  --ink: var(--text-primary);
+  --muted: var(--text-secondary);
+  --line: var(--border-soft);
+  --accent-warm: var(--accent);
+  --accent-cool: var(--accent);
+  --rose: #ad3656;
+  --rose-soft: #fcecf0;
+  --blue: var(--accent);
+  --event-fill: var(--accent-soft);
+  --event-line: var(--accent);
+  --shadow: 0 12px 32px rgba(31, 35, 40, 0.08);
+  --sidebar-bg: var(--panel-soft);
+  --sidebar-divider: var(--border-soft);
+  --detail-bg: var(--panel);
+  --detail-day-bg: var(--panel);
+  --button-soft-bg: var(--accent-soft);
+  --primary-bg: var(--accent);
+  --selected-day-bg: var(--accent);
+  --selected-day-shadow: color-mix(in srgb, var(--accent) 18%, transparent);
+  --event-day-ring: color-mix(in srgb, var(--accent) 45%, transparent);
+  --event-day-bg: var(--accent-soft);
+  --context-bg: var(--panel);
+  --hover-bg: color-mix(in srgb, var(--accent) 8%, transparent);
+  --selection-border: color-mix(in srgb, var(--accent) 60%, transparent);
+  --selection-bg-1: color-mix(in srgb, var(--accent) 12%, transparent);
+  --selection-bg-2: var(--selection-bg-1);
+  --drag-column-bg: var(--accent-soft);
+  --drag-column-line: var(--selection-border);
+  --sidebar-width: 228px;
+  --detail-width: 300px;
+  --time-axis-width: 52px;
+  --hour-height: 48px;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 7px;
+}
+
+.tag-list .tag-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  min-height: 24px;
+  border: 1px solid color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 20%, transparent);
+  border-radius: 999px;
+  padding: 0 8px;
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 8%, transparent);
+  color: color-mix(in srgb, var(--tag-color, var(--accent-pink)) 72%, var(--text-secondary));
+  font-size: 12px;
+  font-weight: 560;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tag-list .tag-item:hover {
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 14%, #fff);
+}
+
+.tag-list .tag-item.is-selected {
+  border-color: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 38%, #fff);
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 18%, #fff);
+}
+
+.tag-list .tag-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 16%, #fff);
+  color: color-mix(in srgb, var(--tag-color, var(--accent-pink)) 80%, var(--text-secondary));
+  font-size: 8.5px;
+  font-weight: 650;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.tag-list .tag-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-list .tag-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.54);
+  color: color-mix(in srgb, currentColor 62%, transparent);
+  font-size: 10px;
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Preserve the original pink palette independently of the refined purple theme. */
+body[data-theme='coral'] {
+  --bg: #fff8f7;
+  --panel: #fffdfc;
+  --panel-soft: #ffecee;
+  --text-primary: #3a3033;
+  --text-secondary: #7f6870;
+  --text-muted: #a79299;
+  --accent-pink: #924659;
+  --date-hover-bg: #ffd9df;
+  --border-soft: rgba(146, 70, 89, 0.18);
+  --grid-line: rgba(146, 70, 89, 0.13);
+  --ink: var(--text-primary);
+  --muted: var(--text-secondary);
+  --line: var(--border-soft);
+  --accent: #ffb1c0;
+  --accent-strong: var(--accent-pink);
+  --accent-soft: #ffecee;
+  --accent-warm: #ffb1c0;
+  --accent-cool: #ffd9df;
+  --rose: var(--accent-pink);
+  --rose-soft: #ffecee;
+  --blue: #6f8cff;
+  --event-fill: #f7f0ff;
+  --event-line: #8f79ff;
+  --shadow: 0 18px 38px rgba(31, 35, 40, 0.08);
+  --body-grad-1: rgba(255, 177, 192, 0.22);
+  --body-grad-2: rgba(255, 217, 223, 0.42);
+  --sidebar-bg: linear-gradient(
+    160deg,
+    rgba(255, 248, 247, 0.98),
+    rgba(255, 236, 238, 0.94) 56%,
+    rgba(255, 217, 223, 0.78)
+  );
+  --sidebar-divider: rgba(255, 177, 192, 0.58);
+  --detail-bg: rgba(255, 253, 252, 0.97);
+  --detail-day-bg: linear-gradient(180deg, rgba(255, 253, 252, 0.98), rgba(255, 236, 238, 0.96));
+  --button-soft-bg: #ffecee;
+  --primary-bg: #924659;
+  --selected-day-bg: #f48ea3;
+  --selected-day-shadow: rgba(244, 142, 163, 0.24);
+  --event-day-ring: rgba(146, 70, 89, 0.3);
+  --event-day-bg: rgba(255, 177, 192, 0.16);
+  --context-bg: linear-gradient(145deg, rgba(255, 253, 252, 0.98), rgba(255, 236, 238, 0.96));
+  --hover-bg: rgba(255, 177, 192, 0.16);
+  --selection-border: rgba(244, 142, 163, 0.58);
+  --selection-bg-1: rgba(244, 142, 163, 0.16);
+  --selection-bg-2: rgba(255, 217, 223, 0.18);
+  --drag-column-bg: rgba(255, 177, 192, 0.18);
+  --drag-column-line: rgba(244, 142, 163, 0.24);
+  --sidebar-width: 228px;
+  --time-axis-width: 52px;
+  --hour-height: 48px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button,
+.source-item,
+.mini-day,
+.event-card,
+.context-menu button {
+  transition:
+    background-color 180ms ease,
+    background-image 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes inline-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .detail-panel,
+  .url-import-form,
+  .context-menu,
+  .theme-menu,
+  .search-results,
+  .form-picker {
+    animation: none !important;
+  }
+}
+
+body[data-theme='coral'] {
+  background:
+    radial-gradient(circle at 86% 12%, var(--body-grad-1), transparent 28%),
+    radial-gradient(circle at 18% 88%, var(--body-grad-2), transparent 30%), var(--bg);
+}

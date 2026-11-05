@@ -1,0 +1,371 @@
+/** 黑粉深色：炭黑画布、低对比面板边界，以及柔和的粉色交互强调。 */
+body[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #181818;
+  --panel: #1c1c1c;
+  --panel-soft: #222122;
+  --text-primary: #e4e1e3;
+  --text-secondary: #b0a9ae;
+  --text-muted: #8f888d;
+  --accent: #efa7c5;
+  --accent-soft: #34262e;
+  --accent-strong: #f3b9d1;
+  --accent-pink: var(--accent);
+  --border-soft: #393437;
+  --grid-line: #302d2f;
+  --rose: #f1aac0;
+  --rose-soft: #38252d;
+  --blue: #b7bddc;
+  --event-fill: #30262b;
+  --event-line: var(--accent);
+  --shadow: 0 16px 38px #0006;
+  --sidebar-bg: #181818;
+  --sidebar-divider: var(--border-soft);
+  --detail-bg: #242123;
+  --detail-day-bg: #201e20;
+  --button-soft-bg: #2c282b;
+  --primary-bg: #efa7c5;
+  --selected-day-bg: #d98eae;
+  --selected-day-shadow: transparent;
+  --event-day-ring: #efa7c54d;
+  --event-day-bg: #efa7c50d;
+  --context-bg: #282426;
+  --date-hover-bg: #3a2b33;
+  --hover-bg: #ffffff0a;
+  --selection-border: #efa7c580;
+  --selection-bg-1: #efa7c51a;
+  --selection-bg-2: #efa7c512;
+  --drag-column-bg: #efa7c51a;
+  --drag-column-line: #efa7c533;
+  background: var(--bg);
+}
+
+body[data-theme='dark'] ::selection {
+  background: #efa7c540;
+  color: var(--text-primary);
+}
+
+body[data-theme='dark'] .sidebar {
+  border-radius: 0;
+  border-right: 1px solid var(--border-soft);
+}
+
+body[data-theme='dark'] :is(.timeline-header, .all-day-label, .all-day-cell) {
+  background: var(--panel);
+}
+
+body[data-theme='dark']
+  :is(
+    .detail-panel,
+    .context-menu,
+    .theme-menu,
+    .form-picker,
+    .search-results,
+    .editor-dialog,
+    .sync-dialog
+  ) {
+  background: var(--context-bg);
+  border-color: var(--border-soft);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+/* 浮动编辑器覆盖浅色主题的顶部内高光，避免深色面板出现双重亮边。 */
+body[data-theme='dark'] .app-shell:not(.is-day-mode) .detail-panel {
+  border-width: 0.5px;
+  box-shadow: var(--shadow);
+}
+
+body[data-theme='dark'] .app-shell.is-day-mode .detail-panel {
+  background: var(--detail-day-bg);
+  box-shadow: none;
+}
+
+body[data-theme='dark'] dialog {
+  background: var(--context-bg);
+  color: var(--ink);
+  border-color: var(--border-soft);
+}
+
+body[data-theme='dark'] dialog::backdrop {
+  background: #0009;
+  backdrop-filter: blur(4px);
+}
+
+/* 日程保留分类色，文字和底色按深色画布呈现，避免已完成卡片使用浅色底。 */
+body[data-theme='dark'] .event-card {
+  --text-primary: color-mix(in srgb, var(--event-color) 28%, #c4b8c0);
+  --text-secondary: color-mix(in srgb, var(--event-color) 22%, #a49aa1);
+  --muted: var(--text-secondary);
+  --dark-event-surface: color-mix(in srgb, var(--event-color) 10%, var(--panel));
+  background: var(--dark-event-surface);
+  border-color: color-mix(in srgb, var(--event-color) 32%, var(--border-soft));
+  border-left-color: color-mix(in srgb, var(--event-color) 65%, var(--text-secondary));
+  color: var(--text-primary);
+}
+
+body[data-theme='dark'] .event-card.is-nested-child {
+  background: color-mix(in srgb, var(--dark-event-surface) 80%, var(--panel-soft));
+}
+
+body[data-theme='dark'] :is(.event-card.is-completed, .event-card.is-abandoned) {
+  background: color-mix(in srgb, var(--event-color) 5%, var(--panel));
+  border-color: var(--border-soft);
+  border-left-color: color-mix(in srgb, var(--event-color) 36%, var(--border-soft));
+  color: var(--text-secondary);
+}
+
+body[data-theme='dark'] .event-card.is-selected-event {
+  background: color-mix(in srgb, var(--event-color) 22%, var(--panel));
+  border-color: color-mix(in srgb, var(--event-color) 72%, var(--panel));
+  border-left-color: var(--event-color);
+  outline-color: color-mix(in srgb, var(--event-color) 72%, var(--panel));
+  color: var(--text-primary);
+}
+
+body[data-theme='dark'] .event-wrapper {
+  background: color-mix(in srgb, var(--event-color) 6%, var(--panel));
+  border-color: var(--border-soft);
+}
+
+body[data-theme='dark'] .event-card .complete-toggle {
+  background: var(--panel-soft);
+  border-color: color-mix(in srgb, var(--event-color) 45%, var(--text-secondary));
+}
+
+body[data-theme='dark'] :is(.event-card.is-completed, .event-card.is-abandoned) .complete-toggle {
+  color: var(--event-color);
+  border-color: var(--event-color);
+}
+
+body[data-theme='dark']
+  :is(.event-card.is-tiny-event.is-completed, .event-card.is-tiny-event.is-abandoned)
+  .complete-toggle {
+  color: transparent;
+}
+
+body[data-theme='dark'] .drag-preview {
+  background: color-mix(in srgb, var(--event-color) 14%, var(--panel));
+  color: var(--event-color);
+}
+
+/* 原有输入框、胶囊和选项含白色混合底，这里统一为深灰表面。 */
+body[data-theme='dark']
+  :is(
+    .event-form input:not([type='checkbox']),
+    .event-form select,
+    .event-form textarea,
+    #eventTypeInput,
+    #statusInput,
+    .event-form .series-scope select,
+    .tag-picker-create-input,
+    .url-import-form input,
+    .sync-form input
+  ) {
+  background: var(--panel);
+  color: var(--text-primary);
+  border-color: var(--border-soft);
+  box-shadow: none;
+}
+
+body[data-theme='dark'] :is(.event-form select, #eventTypeInput, #statusInput) {
+  appearance: auto;
+}
+
+body[data-theme='dark'] :is(input, textarea)::placeholder {
+  color: var(--text-muted);
+}
+
+body[data-theme='dark']
+  :is(
+    .event-form input:not([type='checkbox']),
+    .event-form select,
+    .event-form textarea,
+    #eventTypeInput,
+    #statusInput,
+    .tag-picker-create-input
+  ):focus {
+  background: var(--panel-soft);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px #efa7c51a;
+}
+
+body[data-theme='dark']
+  :is(
+    .search-shell input,
+    .view-switch,
+    .status-segment,
+    .event-form .all-day-toggle,
+    .tag-picker-button,
+    .source-select-button,
+    .daily-todo-add-button,
+    .daily-todo-input
+  ) {
+  background: var(--button-soft-bg);
+  border-color: var(--border-soft);
+  color: var(--text-secondary);
+  box-shadow: none;
+}
+
+body[data-theme='dark']
+  :is(
+    .view-button[aria-pressed='true'],
+    .status-segment button.is-selected,
+    .search-result-tag,
+    .source-picker-menu button.is-selected
+  ) {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  box-shadow: none;
+}
+
+body[data-theme='dark']
+  :is(
+    .search-results button:hover,
+    .search-result:hover,
+    .tag-picker-button:hover,
+    .source-select-button:hover
+  ) {
+  background: var(--hover-bg);
+}
+
+body[data-theme='dark']
+  :is(
+    .primary-button,
+    .form-actions .primary-button,
+    .tag-picker-create-submit,
+    .date-picker-day.is-selected,
+    .time-picker-column button.is-selected,
+    .mini-day.is-today,
+    .mini-day.is-selected.is-today,
+    .now-time-label,
+    .week-day-head.is-today .week-date
+  ) {
+  background: var(--primary-bg);
+  color: #281c22;
+  box-shadow: none;
+}
+
+body[data-theme='dark']
+  :is(
+    .form-actions .secondary-button,
+    .form-actions .danger-button,
+    .url-import-form .primary-button
+  ) {
+  background: var(--button-soft-bg);
+  border-color: var(--border-soft);
+  color: var(--accent-strong);
+  box-shadow: none;
+}
+
+body[data-theme='dark'] .form-actions {
+  background: var(--detail-bg);
+  border-color: var(--border-soft);
+}
+
+body[data-theme='dark'] .event-form .all-day-toggle input {
+  background: #51474d;
+  box-shadow: none;
+}
+
+body[data-theme='dark'] .event-form .all-day-toggle input:checked {
+  background: var(--accent);
+}
+
+body[data-theme='dark'] .event-form .all-day-toggle:has(input:checked) {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+body[data-theme='dark'] :is(.tag-item, .tag-chip, .form-tag-pill) {
+  color: color-mix(in srgb, var(--tag-color, var(--accent)) 38%, var(--text-primary));
+  background: color-mix(in srgb, var(--tag-color, var(--accent)) 12%, var(--panel));
+  border-color: color-mix(in srgb, var(--tag-color, var(--accent)) 24%, var(--border-soft));
+}
+
+body[data-theme='dark']
+  :is(#tagList.tag-list .tag-item, .tag-picker-menu .tag-picker-item.tag-item).is-selected {
+  background: color-mix(in srgb, var(--tag-color, var(--accent)) 22%, var(--panel));
+  color: var(--text-primary);
+}
+
+body[data-theme='dark']
+  :is(#tagList.tag-list .tag-item, .tag-picker-menu .tag-picker-item.tag-item) {
+  color: color-mix(in srgb, var(--tag-color, var(--accent)) 38%, var(--text-primary));
+}
+
+body[data-theme='dark']
+  :is(
+    .tag-count,
+    #tagList.tag-list .tag-count,
+    #tagList.tag-list .tag-item.is-selected .tag-count
+  ) {
+  background: #ffffff0d;
+  color: var(--text-secondary);
+}
+
+body[data-theme='dark'] .tag-chip.is-selected {
+  color: var(--text-primary);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+body[data-theme='dark'] :is(.calendar-color-swatch, .calendar-color-custom input) {
+  border-color: var(--border-soft);
+}
+
+body[data-theme='dark']
+  :is(
+    .search-results,
+    .form-picker,
+    .tag-picker-menu,
+    .source-picker-menu,
+    .timeline-context-menu.is-paste-menu
+  ) {
+  background: var(--context-bg);
+  box-shadow: var(--shadow);
+}
+
+body[data-theme='dark'] .calendar-color-swatch.is-active {
+  box-shadow:
+    0 0 0 2px var(--context-bg),
+    0 0 0 3px var(--accent);
+}
+
+body[data-theme='dark'] .daily-todo-item {
+  background: color-mix(in srgb, var(--todo-color, var(--accent)) 8%, var(--panel));
+  border-color: var(--border-soft);
+}
+
+body[data-theme='dark'] .daily-todo-item:hover {
+  background: var(--panel-soft);
+}
+
+body[data-theme='dark'] :is(.source-type, .daily-todo-check) {
+  background: var(--button-soft-bg);
+}
+
+body[data-theme='dark'] .source-check {
+  background: color-mix(in srgb, var(--source-color) 80%, transparent);
+}
+
+body[data-theme='dark'] :is(.source-name-input, .source-name-input:focus) {
+  background: var(--panel);
+  color: var(--text-primary);
+  border-color: var(--border-soft);
+  box-shadow: none;
+}
+
+body[data-theme='dark']
+  :is(
+    .tag-list .tag-item:hover,
+    .tag-chip:hover,
+    .tag-picker-menu .tag-picker-item.tag-item:hover
+  ) {
+  background: color-mix(in srgb, var(--tag-color, var(--accent)) 18%, var(--panel));
+}
+
+body[data-theme='dark'] .status-segment button:hover {
+  background: var(--accent-soft);
+}

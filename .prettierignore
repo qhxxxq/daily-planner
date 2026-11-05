@@ -1,0 +1,6 @@
+node_modules
+build
+dist
+vendor
+sw.js
+daily-planner-data*.json

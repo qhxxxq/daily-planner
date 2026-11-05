@@ -1,0 +1,44 @@
+/**
+ * 文件用途：草稿与恢复对话框外观。
+ * 提供共用的对话框容器、遮罩和卡片布局，并保留窄屏布局规则。
+ */
+.sync-dialog {
+  width: min(440px, calc(100vw - 28px));
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  color: var(--ink);
+  background: var(--panel);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 28%);
+}
+
+.sync-dialog::backdrop {
+  background: rgb(18 16 22 / 55%);
+  backdrop-filter: blur(4px);
+}
+
+.sync-card {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+}
+
+@media (max-width: 760px) {
+  .sync-card {
+    padding: 20px;
+  }
+
+  .sidebar {
+    max-height: 42vh;
+    overflow: auto;
+  }
+
+  .planner {
+    min-height: 100dvh;
+  }
+
+  .calendar-view {
+    min-height: 70dvh;
+    overscroll-behavior: contain;
+  }
+}

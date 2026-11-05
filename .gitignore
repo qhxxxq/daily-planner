@@ -1,0 +1,29 @@
+# OS and editor files
+.DS_Store
+*.log
+.vscode/
+.idea/
+
+# Dependencies and generated artifacts
+node_modules/
+.venv/
+/dist/
+coverage/
+__pycache__/
+*.pyc
+
+# Personal planner data and local backups
+/daily-planner-data*.json
+/backups/
+
+# Local secrets and hosting association
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.openai/
+
+# TypeScript build output
+/build/
+/sw.js

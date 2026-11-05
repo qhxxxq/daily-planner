@@ -1,0 +1,351 @@
+/**
+ * 文件用途：日期时间选择器外观。
+ * 定义月份网格、日期单元格和时间列表浮层，配合选择器模块的定位和选中状态。
+ */
+.form-picker {
+  position: fixed;
+  z-index: 90;
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(255, 253, 252, 0.98), rgba(255, 236, 238, 0.96)), var(--panel);
+  box-shadow: 0 18px 42px rgba(58, 48, 51, 0.16);
+  color: var(--text-primary);
+  backdrop-filter: blur(18px);
+  transform-origin: top left;
+  animation: pop-in 130ms ease-out both;
+}
+
+.form-picker[hidden] {
+  display: none;
+}
+
+.date-picker {
+  width: 232px;
+  padding: 10px;
+}
+
+.form-picker-head {
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.form-picker-head strong {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 750;
+  text-align: center;
+}
+
+.form-picker-head button,
+.form-picker-footer button,
+.date-picker-day,
+.time-picker-column button {
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+}
+
+.form-picker-head button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  color: var(--accent-pink);
+  font-size: 20px;
+  line-height: 1;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.form-picker-head button:hover,
+.form-picker-footer button:hover,
+.date-picker-day:hover,
+.time-picker-column button:hover {
+  background: var(--date-hover-bg);
+  color: var(--accent-pink);
+}
+
+.date-picker-weekdays,
+.date-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.date-picker-weekdays {
+  margin-bottom: 4px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 650;
+  text-align: center;
+}
+
+.date-picker-day {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 999px;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 620;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.date-picker-day.is-muted {
+  color: var(--text-muted);
+}
+
+.date-picker-day.is-today {
+  color: var(--accent-pink);
+}
+
+.date-picker-day.is-selected {
+  background: color-mix(in srgb, var(--selected-day-bg) 86%, #fff);
+  color: #fff;
+  box-shadow: 0 4px 10px color-mix(in srgb, var(--selected-day-bg) 20%, transparent);
+}
+
+.date-picker-day.is-selected:hover {
+  background: var(--accent-pink);
+  color: #fff;
+}
+
+.form-picker-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.form-picker-footer button {
+  min-height: 26px;
+  border-radius: 8px;
+  padding: 0 8px;
+  color: var(--accent-pink);
+  font-size: 11.5px;
+  font-weight: 650;
+}
+
+.time-picker {
+  width: 156px;
+  padding: 8px;
+}
+
+.time-picker-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.time-picker-column {
+  display: grid;
+  gap: 3px;
+  max-height: 178px;
+  overflow: auto;
+  padding-right: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-soft) transparent;
+}
+
+.time-picker-column button {
+  display: grid;
+  place-items: center;
+  min-height: 25px;
+  border-radius: 999px;
+  color: var(--text-primary);
+  font-size: 11.5px;
+  font-weight: 620;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.time-picker-column button.is-selected {
+  background: color-mix(in srgb, var(--selected-day-bg) 86%, #fff);
+  color: #fff;
+  box-shadow: 0 3px 9px color-mix(in srgb, var(--selected-day-bg) 18%, transparent);
+}
+
+.time-picker-column button.is-selected:hover {
+  background: var(--accent-pink);
+  color: #fff;
+}
+
+.form-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  margin: 2px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--border-soft) 34%, #fff);
+  background: var(--detail-bg);
+  backdrop-filter: blur(12px);
+}
+
+.form-action-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.form-actions .primary-button,
+.form-actions .danger-button,
+.form-actions .secondary-button {
+  min-height: 32px;
+  min-width: 72px;
+  padding: 0 15px;
+  border-radius: 14px;
+  font-size: 12.5px;
+  font-weight: 620;
+}
+
+.form-actions .danger-button {
+  border: 1px solid color-mix(in srgb, var(--rose-soft) 64%, #fff);
+  background: color-mix(in srgb, var(--rose-soft) 58%, #fff);
+  color: color-mix(in srgb, #bd4a72 82%, var(--muted));
+}
+
+.form-actions .primary-button {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--primary-bg) 92%, #fff),
+    var(--primary-bg)
+  );
+  color: #fff;
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--selected-day-bg) 22%, transparent);
+}
+
+.form-actions .secondary-button {
+  border: 1px solid color-mix(in srgb, var(--border-soft) 46%, #fff);
+  background: rgba(255, 255, 255, 0.62);
+  color: color-mix(in srgb, var(--muted) 84%, var(--ink));
+}
+
+.form-actions .secondary-button:hover {
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.form-heading {
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.form-heading h2 {
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 680;
+  letter-spacing: 0;
+}
+
+.form-heading .icon-button {
+  width: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.38);
+  color: color-mix(in srgb, var(--muted) 82%, var(--ink));
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.form-heading .icon-button:hover {
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+}
+
+.app-shell.is-day-mode .form-heading h2 {
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.app-shell.is-day-mode .form-heading .icon-button {
+  width: 30px;
+  min-height: 30px;
+  font-size: 18px;
+}
+
+.app-shell.is-day-mode .event-form {
+  gap: 10px;
+  height: 100%;
+  max-height: 100%;
+  padding-right: 4px;
+  padding-bottom: 0;
+}
+
+.app-shell.is-day-mode .form-actions {
+  position: sticky;
+  right: auto;
+  bottom: 0;
+  width: auto;
+  margin: 0;
+  padding: 10px 0 0;
+}
+
+.app-shell.is-day-mode .event-form input,
+.app-shell.is-day-mode .event-form select,
+.app-shell.is-day-mode .event-form textarea {
+  border-color: color-mix(in srgb, var(--border-soft) 52%, #fff);
+  border-radius: 12px;
+  padding: 4px 9px;
+  background: rgba(255, 255, 255, 0.58);
+  font-size: 12px;
+}
+
+.app-shell.is-day-mode .event-form select {
+  padding-right: 30px;
+  background:
+    linear-gradient(45deg, transparent 50%, color-mix(in srgb, var(--muted) 76%, #fff) 50%)
+      calc(100% - 17px) 14px / 5px 5px no-repeat,
+    linear-gradient(135deg, color-mix(in srgb, var(--muted) 76%, #fff) 50%, transparent 50%)
+      calc(100% - 12px) 14px / 5px 5px no-repeat,
+    rgba(255, 255, 255, 0.76);
+}
+
+.app-shell.is-day-mode .event-form #eventTypeInput,
+.app-shell.is-day-mode .event-form #statusInput {
+  background:
+    linear-gradient(45deg, transparent 50%, color-mix(in srgb, var(--muted) 72%, #fff) 50%)
+      calc(100% - 17px) 14px / 5px 5px no-repeat,
+    linear-gradient(135deg, color-mix(in srgb, var(--muted) 72%, #fff) 50%, transparent 50%)
+      calc(100% - 12px) 14px / 5px 5px no-repeat,
+    color-mix(in srgb, var(--rose-soft) 28%, rgba(255, 255, 255, 0.82));
+}
+
+.app-shell.is-day-mode .event-form .all-day-toggle input {
+  width: 25px;
+  min-height: 15px;
+  height: 15px;
+  padding: 0;
+}
+
+.app-shell.is-day-mode .form-row {
+  gap: 8px;
+}
+
+.app-shell.is-day-mode .primary-button,
+.app-shell.is-day-mode .danger-button {
+  min-height: 30px;
+}
+
+/* Original pink theme colors. */
+body[data-theme='coral'] .form-actions {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 251, 252, 0.96) 42%),
+    var(--detail-bg);
+}

@@ -1,0 +1,663 @@
+/**
+ * 文件用途：编辑器标签与来源选择外观。
+ * 定义标签胶囊、候选项、来源选择及关联菜单的排版和交互反馈。
+ */
+.form-tag-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.form-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 136px;
+  min-height: 24px;
+  border: 1px solid color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 22%, #fff);
+  border-radius: 999px;
+  padding: 0 7px;
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 10%, #fff);
+  color: color-mix(in srgb, var(--tag-color, var(--accent-pink)) 70%, var(--ink));
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.form-tag-pill:hover {
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 15%, #fff);
+}
+
+.form-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tag-color, var(--selected-day-bg));
+}
+
+.form-tag-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-chip-remove {
+  display: grid;
+  place-items: center;
+  width: 11px;
+  height: 11px;
+  color: color-mix(in srgb, currentColor 72%, transparent);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.tag-picker-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  border: 1px dashed color-mix(in srgb, var(--border-soft) 62%, #fff);
+  border-radius: 999px;
+  padding: 0 8px;
+  background: rgba(255, 255, 255, 0.48);
+  color: color-mix(in srgb, var(--muted) 78%, var(--accent-strong));
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.tag-picker-button:hover {
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--accent-pink);
+}
+
+.form-heading .source-select-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  border-color: color-mix(in srgb, var(--border-soft) 42%, #fff);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.36);
+  box-shadow: none;
+}
+
+.form-heading .source-select-name {
+  display: none;
+}
+
+.form-heading .source-select-arrow {
+  display: none;
+}
+
+.source-select-button:hover,
+.source-select-button[aria-expanded='true'] {
+  border-color: color-mix(in srgb, var(--selected-day-bg) 46%, #fff);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.source-select-dot {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--source-color, var(--selected-day-bg));
+}
+
+.source-select-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-select-arrow {
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.source-picker-menu {
+  width: 176px;
+  padding: 6px;
+  z-index: 160;
+  border-color: color-mix(in srgb, var(--border-soft) 48%, #fff);
+  background: var(--detail-bg);
+  box-shadow:
+    0 18px 42px rgba(58, 48, 51, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(18px) saturate(1.08);
+}
+
+.tag-picker-menu {
+  width: 204px;
+  padding: 6px;
+}
+
+.source-picker-menu button {
+  display: grid;
+  grid-template-columns: 16px auto minmax(0, 1fr);
+  gap: 8px;
+  min-height: 30px;
+  padding: 0 9px;
+  font-size: 12.5px;
+}
+
+.tag-picker-menu button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px;
+  min-height: 30px;
+  padding: 0 9px;
+  color: color-mix(in srgb, var(--ink) 82%, var(--tag-color, var(--accent-pink)));
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.source-picker-check,
+.tag-picker-check {
+  color: currentColor;
+  font-weight: 700;
+  text-align: center;
+}
+
+.source-picker-dot,
+.tag-picker-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--source-color, var(--tag-color));
+}
+
+.tag-picker-dot {
+  width: 8px;
+  height: 8px;
+}
+
+.tag-picker-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-picker-menu button.is-selected {
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 12%, #fff);
+}
+
+.tag-picker-menu .tag-picker-empty {
+  grid-template-columns: minmax(0, 1fr);
+  color: var(--text-muted);
+}
+
+.tag-picker-menu .tag-picker-new {
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 5px;
+  border-top: 1px solid color-mix(in srgb, var(--border-soft) 64%, transparent);
+  border-radius: 0 0 9px 9px;
+  color: color-mix(in srgb, var(--accent-strong) 70%, var(--muted));
+}
+
+.source-picker-name,
+.tag-picker-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-picker-menu button.is-selected,
+.tag-picker-menu button.is-selected {
+  background: var(--selected-day-bg);
+  color: #fff;
+}
+
+.source-picker-menu button.is-selected {
+  background: color-mix(in srgb, var(--selected-day-bg) 22%, #fff);
+  color: color-mix(in srgb, var(--accent-strong) 84%, var(--ink));
+}
+
+.tag-chip .tag-icon,
+.tag-chip .tag-dot,
+.tag-chip .tag-prefix,
+.tag-chip .tag-hash,
+.tag-chip .form-tag-dot,
+.tag-chip .tag-picker-dot,
+#tagList .tag-mark,
+#tagList .tag-dot,
+#tagList .tag-prefix,
+#tagList .tag-hash,
+.tag-picker-menu .tag-picker-dot {
+  display: none !important;
+}
+
+#tagList.tag-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 6px;
+  min-height: 34px;
+  padding-left: 12px;
+}
+
+#tagList.tag-list .tag-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  max-width: 100%;
+  min-height: 24px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(var(--tag-rgb, 146, 70, 89), 0.22);
+  color: var(--tag-text-color, #6f4856);
+  font-size: 11.5px;
+  font-weight: 620;
+  line-height: 1;
+  cursor: grab;
+}
+
+#tagList.tag-list .tag-item:active {
+  cursor: grabbing;
+}
+
+#tagList.tag-list .tag-item:hover {
+  background: rgba(var(--tag-rgb, 146, 70, 89), 0.27);
+}
+
+#tagList.tag-list .tag-item.is-selected {
+  background: rgba(var(--tag-rgb, 146, 70, 89), 0.32);
+  color: var(--tag-selected-text-color, #5f3346);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--tag-rgb, 146, 70, 89), 0.5),
+    0 1px 4px rgba(var(--tag-rgb, 146, 70, 89), 0.12);
+}
+
+#tagList.tag-list .tag-item.is-selected::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  pointer-events: none;
+}
+
+#tagList.tag-list .tag-name {
+  min-width: 0;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+#tagList.tag-list .tag-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 14px;
+  height: 14px;
+  margin-left: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.42);
+  color: color-mix(in srgb, currentColor 76%, transparent);
+  font-size: 9.5px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+#tagList.tag-list .tag-count.is-empty {
+  opacity: 0.45;
+}
+
+#tagList.tag-list .tag-item.is-selected .tag-count {
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--tag-selected-text-color, #5f3346);
+  font-weight: 700;
+}
+
+.form-tag-pill.tag-chip,
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  max-width: 156px;
+  height: 30px;
+  min-height: 30px;
+  border: 1px solid var(--tag-border, rgba(146, 70, 89, 0.28));
+  border-radius: 999px;
+  padding: 0 12px;
+  background: var(--tag-bg, rgba(146, 70, 89, 0.1));
+  color: var(--tag-text-color, #7a4f5f);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.form-tag-pill.tag-chip:hover,
+.tag-chip:hover {
+  border-color: var(--tag-hover-border, rgba(146, 70, 89, 0.38));
+  background: var(--tag-hover-bg, rgba(146, 70, 89, 0.15));
+}
+
+.tag-chip.is-selected {
+  border-color: var(--tag-selected-border, rgba(146, 70, 89, 0.48));
+  background: var(--tag-selected-bg, rgba(146, 70, 89, 0.2));
+  color: var(--tag-selected-text-color, #6b4050);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--tag-rgb, 146, 70, 89), 0.16),
+    0 2px 8px rgba(var(--tag-rgb, 146, 70, 89), 0.12);
+}
+
+.form-tag-name,
+.tag-picker-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-chip-remove {
+  width: 14px;
+  height: 14px;
+  margin-left: 7px;
+  color: color-mix(in srgb, currentColor 70%, transparent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tag-picker-button {
+  height: 30px;
+  min-height: 30px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tag-field .form-tag-pill.tag-chip {
+  max-width: 128px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0 7px;
+  font-size: 11.5px;
+  font-weight: 560;
+}
+
+.tag-field .tag-chip-remove {
+  width: 10px;
+  height: 10px;
+  margin-left: 4px;
+  font-size: 10px;
+}
+
+.tag-field .tag-picker-button {
+  height: 20px;
+  min-height: 20px;
+  padding: 0 7px;
+  font-size: 11.5px;
+  font-weight: 560;
+}
+
+.tag-picker-menu {
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  width: min(168px, calc(100vw - 28px));
+  aspect-ratio: 1;
+  padding: 9px;
+  background: rgba(255, 252, 253, 0.98);
+  box-shadow:
+    0 18px 42px rgba(88, 55, 66, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+}
+
+.tag-picker-menu.is-creating {
+  width: min(196px, calc(100vw - 28px));
+  aspect-ratio: auto;
+}
+
+.tag-picker-menu .tag-picker-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  align-content: flex-start;
+}
+
+.tag-picker-menu .tag-picker-item.tag-item {
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: auto;
+  max-width: 100%;
+  min-height: 20px;
+  padding: 0 7px;
+  border: 1px solid color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 20%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 8%, transparent);
+  color: color-mix(in srgb, var(--tag-color, var(--accent-pink)) 72%, var(--text-secondary));
+  font-size: 10.5px;
+  font-weight: 560;
+  line-height: 1;
+}
+
+.tag-picker-menu .tag-picker-item.tag-item:hover {
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 14%, #fff);
+}
+
+.tag-picker-menu .tag-picker-item.tag-item.is-selected {
+  border-color: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 38%, #fff);
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 18%, #fff);
+  color: var(--tag-selected-text-color, #6b4050);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--tag-rgb, 146, 70, 89), 0.16),
+    0 2px 8px rgba(var(--tag-rgb, 146, 70, 89), 0.1);
+}
+
+.tag-picker-menu .tag-picker-empty {
+  padding: 5px 2px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.tag-picker-menu .tag-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-picker-menu .tag-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 14px;
+  height: 13px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.54);
+  color: color-mix(in srgb, currentColor 62%, transparent);
+  font-size: 9px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.tag-picker-menu .tag-count.is-empty {
+  opacity: 0.45;
+}
+
+.tag-picker-menu .tag-picker-new {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex: 0 0 auto;
+  min-height: 29px;
+  margin-top: 7px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-top-color: color-mix(in srgb, var(--border-soft) 64%, transparent);
+  border-radius: 0 0 12px 12px;
+  background: transparent;
+  color: color-mix(in srgb, var(--accent-strong) 72%, var(--muted));
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.tag-picker-menu .tag-picker-new:hover {
+  background: var(--tag-hover-bg, rgba(146, 70, 89, 0.08));
+}
+
+.tag-picker-create {
+  display: grid;
+  gap: 7px;
+  flex: 0 0 auto;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--border-soft) 64%, transparent);
+}
+
+.tag-picker-create-input {
+  width: 100%;
+  min-width: 0;
+  height: 30px;
+  padding: 0 9px;
+  border: 1px solid color-mix(in srgb, var(--border-soft) 80%, transparent);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--ink);
+  font-size: 12px;
+  outline: none;
+}
+
+.tag-picker-create-input:focus {
+  border-color: color-mix(in srgb, var(--accent-strong) 42%, var(--border-soft));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-strong) 12%, transparent);
+}
+
+.tag-picker-create-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.tag-picker-create-actions button {
+  min-width: 0;
+  height: 28px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.tag-picker-create-cancel {
+  border: 1px solid color-mix(in srgb, var(--border-soft) 72%, transparent);
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.tag-picker-create-submit {
+  border: 1px solid transparent;
+  background: color-mix(in srgb, var(--accent-strong) 82%, var(--accent-pink));
+  color: #fff;
+}
+
+.color-menu {
+  width: 204px;
+}
+
+.calendar-color-grid {
+  grid-template-columns: repeat(6, 26px);
+  gap: 6px;
+  justify-content: center;
+  padding: 0 6px 10px;
+}
+
+.context-menu .calendar-color-swatch {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  border: 2px solid rgba(255, 255, 255, 0.84);
+  box-shadow: 0 0 0 1px rgba(89, 96, 112, 0.13);
+}
+
+.context-menu .calendar-color-swatch.is-active {
+  border-color: rgba(var(--swatch-rgb, 146, 70, 89), 0.7);
+  box-shadow:
+    0 0 0 3px rgba(var(--swatch-rgb, 146, 70, 89), 0.18),
+    0 2px 8px rgba(var(--swatch-rgb, 146, 70, 89), 0.14);
+}
+
+.calendar-color-custom input {
+  width: 26px;
+  height: 26px;
+  border-color: rgba(var(--swatch-rgb, 146, 70, 89), 0.7);
+  box-shadow:
+    0 0 0 3px rgba(var(--swatch-rgb, 146, 70, 89), 0.16),
+    0 2px 8px rgba(var(--swatch-rgb, 146, 70, 89), 0.12);
+}
+
+.event-form input:focus,
+.event-form select:focus,
+.event-form textarea:focus {
+  border-color: color-mix(in srgb, var(--selected-day-bg) 48%, #fff);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    0 0 0 3px color-mix(in srgb, var(--selected-day-bg) 14%, transparent);
+}
+
+.event-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.event-form .notes-field {
+  gap: 5px;
+}
+
+.event-form .notes-field textarea {
+  min-height: 58px;
+  height: 58px;
+  padding: 6px 9px;
+  resize: vertical;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.check-row {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  color: var(--muted);
+}
+
+.check-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+/* Original pink theme colors. */
+body[data-theme='coral'] .source-picker-menu {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 251, 252, 0.96)), var(--detail-bg);
+}

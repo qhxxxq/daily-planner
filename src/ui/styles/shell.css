@@ -1,0 +1,519 @@
+/**
+ * 文件用途：应用整体布局与顶部区域。
+ * 控制页面外框、主区域和顶栏的排列及尺寸，配合侧栏和编辑面板形成日程工作区。
+ */
+.app-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(540px, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100vh;
+  min-height: 100vh;
+}
+
+.app-shell.is-day-mode {
+  grid-template-columns: var(--sidebar-width) minmax(300px, 1fr) var(--detail-width);
+}
+
+.app-shell.is-day-mode.is-detail-collapsed {
+  grid-template-columns: var(--sidebar-width) minmax(300px, 1fr);
+}
+
+.app-shell.is-day-mode.is-detail-collapsed .detail-panel {
+  display: none;
+}
+
+.detail-toggle {
+  white-space: nowrap;
+}
+
+.detail-toggle[hidden] {
+  display: none;
+}
+
+.detail-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.sidebar,
+.detail-panel {
+  background: var(--panel-soft);
+  border-color: var(--line);
+}
+
+.sidebar {
+  container: sidebar / inline-size;
+  grid-row: 1 / -1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-right: 0;
+  border-radius: 0 18px 18px 0;
+  padding: 12px 10px 14px;
+  background: var(--sidebar-bg);
+  box-shadow: none;
+  overflow: hidden;
+}
+
+body.macos-app .sidebar {
+  padding-top: 42px;
+}
+
+body.macos-app.macos-fullscreen .sidebar {
+  padding-top: 12px;
+}
+
+body.macos-app .planner-header,
+body.macos-app .window-toolbar {
+  user-select: none;
+}
+
+.sidebar::after {
+  display: none;
+}
+
+body[data-theme='coral'] .sidebar {
+  box-shadow: none;
+}
+
+.sidebar-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 30;
+  width: 14px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.sidebar-resizer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.sidebar-resizer:hover::after,
+.sidebar-resizer.is-dragging::after {
+  background: color-mix(in srgb, var(--sidebar-divider) 62%, transparent);
+}
+
+body.is-sidebar-resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+.detail-panel {
+  position: fixed;
+  top: 118px;
+  right: 28px;
+  z-index: 110;
+  display: none;
+  width: min(300px, calc(100vw - 36px));
+  max-height: calc(100vh - 140px);
+  overflow: auto;
+  border: 1px solid color-mix(in srgb, var(--border-soft) 48%, #fff);
+  border-radius: 22px;
+  padding: 14px;
+  background: var(--detail-bg);
+  box-shadow:
+    0 22px 52px rgba(58, 48, 51, 0.11),
+    0 7px 20px rgba(207, 78, 134, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(18px) saturate(1.08);
+}
+
+.detail-panel:has(.event-form:not([hidden])) {
+  display: block;
+}
+
+.app-shell:not(.is-day-mode) .detail-panel:has(.event-form:not([hidden])) {
+  transform-origin: top right;
+  animation: panel-in 150ms ease-out both;
+}
+
+.app-shell.is-day-mode .detail-panel {
+  grid-column: 3;
+  grid-row: 1 / -1;
+  position: static;
+  z-index: auto;
+  display: block;
+  width: auto;
+  min-width: 0;
+  height: 100vh;
+  max-height: 100vh;
+  justify-self: stretch;
+  align-self: stretch;
+  overflow: auto;
+  border: 0;
+  border-left: 1px solid var(--border-soft);
+  border-radius: 0;
+  padding: 76px 16px 24px;
+  background: var(--detail-day-bg);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.planner {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 0 14px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.app-shell.is-day-mode .planner {
+  padding-right: 0;
+}
+
+.window-toolbar,
+.brand-row,
+.planner-header,
+.section-title,
+.month-control,
+.form-heading,
+.header-actions,
+.form-actions {
+  display: flex;
+  align-items: center;
+}
+
+.window-toolbar,
+.brand-row,
+.planner-header,
+.section-title,
+.month-control,
+.form-heading {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.eyebrow {
+  margin: 0 0 2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  margin: 0;
+  letter-spacing: 0;
+}
+
+h1 {
+  font-size: 18px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.window-toolbar {
+  justify-content: flex-start;
+  min-height: 36px;
+  padding: 2px 4px 0;
+}
+
+.toolbar-icons {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.toolbar-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--accent-pink);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.toolbar-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+
+.toolbar-icon.is-active {
+  background: transparent;
+  color: var(--accent-pink);
+}
+
+.toolbar-icon:hover {
+  background: var(--hover-bg);
+  color: var(--accent-pink);
+}
+
+.toolbar-icon.is-active:hover {
+  background: var(--hover-bg);
+  color: var(--accent-pink);
+}
+
+.planner-header h2 {
+  font-size: 24px;
+  font-weight: 650;
+}
+
+.planner-header {
+  container: planner-toolbar / inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-column: 2 / -1;
+  grid-row: 1;
+  position: relative;
+  padding: 10px 14px 0;
+  background: var(--panel);
+}
+
+.range-heading {
+  min-width: 0;
+}
+
+.range-title-row h2 {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.week-range-actions {
+  flex-shrink: 0;
+}
+
+.range-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.week-range-actions {
+  display: none;
+  align-items: center;
+  gap: 5px;
+}
+
+.app-shell.is-week-mode .week-range-actions {
+  display: inline-flex;
+}
+
+.icon-button,
+.primary-button,
+.text-button,
+.danger-button {
+  border: 0;
+  border-radius: 8px;
+  min-height: 38px;
+}
+
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  background: var(--button-soft-bg);
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.header-actions .icon-button,
+.header-actions .text-button {
+  border-radius: 16px;
+}
+
+.week-jump-button {
+  display: none;
+  width: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  border-radius: 12px;
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.app-shell.is-week-mode .week-jump-button {
+  display: inline-grid;
+}
+
+.header-actions .icon-button:hover,
+.header-actions .text-button:hover {
+  border-radius: 10px;
+}
+
+.primary-button {
+  padding: 0 16px;
+  background: var(--primary-bg);
+  color: #fff;
+  font-weight: 600;
+}
+
+.text-button {
+  min-height: 30px;
+  padding: 0 10px;
+  background: var(--button-soft-bg);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.danger-button {
+  padding: 0 14px;
+  background: var(--rose-soft);
+  color: var(--rose);
+  font-weight: 600;
+}
+
+.mini-calendar,
+.calendar-sources,
+.tag-sources,
+.data-file,
+.stats-strip,
+.calendar-view {
+  margin-top: 18px;
+}
+
+.calendar-sources {
+  margin-top: 4px;
+}
+
+.calendar-sources {
+  min-height: 0;
+}
+
+.tag-sources {
+  margin-top: 68px;
+  min-height: 136px;
+  padding-bottom: 34px;
+}
+
+.calendar-sources .section-title,
+.tag-sources .section-title {
+  justify-content: space-between;
+  min-height: 36px;
+  padding: 0 10px 0 12px;
+}
+
+.calendar-sources h2,
+.tag-sources h2,
+.section-subtitle {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+body[data-theme='coral'] .calendar-sources h2,
+body[data-theme='coral'] .tag-sources h2,
+body[data-theme='coral'] .source-actions .text-button {
+  color: var(--accent-pink);
+}
+
+.section-subtitle {
+  margin: 18px 14px 0;
+}
+
+.url-import-form {
+  position: fixed;
+  z-index: 70;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+  width: 260px;
+  margin: 0;
+  padding: 7px;
+  border: 1px solid var(--border-soft);
+  border-radius: 13px;
+  background: var(--panel);
+  box-shadow: 0 10px 24px rgba(58, 48, 51, 0.1);
+  backdrop-filter: blur(14px);
+  transform-origin: top right;
+  animation: pop-in 130ms ease-out both;
+}
+
+.url-import-form[hidden] {
+  display: none;
+}
+
+.url-import-form input {
+  min-width: 0;
+  min-height: 30px;
+  border: 1px solid var(--border-soft);
+  border-radius: 9px;
+  padding: 0 9px;
+  background: rgba(255, 255, 255, 0.64);
+  color: var(--text-primary);
+  font-size: 11.5px;
+  outline: 0;
+}
+
+.url-import-form input::placeholder {
+  color: var(--text-muted);
+}
+
+.url-import-form input:focus {
+  border-color: var(--border-soft);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: none;
+}
+
+.url-import-form .primary-button {
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--selected-day-bg) 30%, #fff);
+  color: var(--accent-pink);
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Original pink theme colors. */
+body[data-theme='coral'] .sidebar {
+  background: var(--sidebar-bg), var(--panel-soft);
+}
+
+body[data-theme='coral'] .detail-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 251, 252, 0.92)), var(--detail-bg);
+}
+
+body[data-theme='coral'] .toolbar-icon:hover {
+  background: rgba(255, 217, 223, 0.72);
+}
+
+body[data-theme='coral'] .toolbar-icon.is-active:hover {
+  background: rgba(255, 217, 223, 0.72);
+}
+
+body[data-theme='coral'] .url-import-form {
+  background: rgba(255, 248, 247, 0.98);
+}
+
+body[data-theme='coral'] .app-shell.is-day-mode .detail-panel {
+  background: var(--detail-day-bg);
+}

@@ -1,0 +1,229 @@
+/**
+ * 文件用途：窄窗口布局适配。
+ * 通过媒体查询调整主布局和面板位置，使既有界面在较窄窗口仍可操作。
+ */
+@media (max-width: 1120px) {
+  .app-shell {
+    grid-template-columns: var(--sidebar-width) minmax(420px, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    display: block;
+    height: auto;
+  }
+
+  .sidebar,
+  .planner,
+  .detail-panel {
+    padding: 18px;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .detail-panel {
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+    max-height: 72vh;
+  }
+
+  .planner-header {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px 18px 0;
+  }
+
+  .planner {
+    height: 100vh;
+    padding-top: 0;
+  }
+
+  .view-switch {
+    position: static;
+    transform: none;
+    order: -1;
+  }
+
+  .planner-header h2 {
+    font-size: 26px;
+  }
+
+  .stats-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .hour-row {
+    grid-template-columns: 52px 1fr;
+  }
+
+  .hour-label {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .event-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .event-source {
+    grid-column: 2;
+    justify-self: start;
+    max-width: 100%;
+  }
+
+  .week-header,
+  .week-row {
+    grid-template-columns: 52px repeat(7, minmax(102px, 1fr));
+  }
+
+  .view-switch {
+    grid-template-columns: repeat(3, 38px);
+  }
+}
+
+/* On narrower windows the right rail overlays instead of squeezing the calendar. */
+@media (max-width: 1120px) {
+  .app-shell.is-day-mode,
+  .app-shell.is-day-mode.is-detail-collapsed {
+    grid-template-columns: var(--sidebar-width) minmax(300px, 1fr);
+  }
+
+  .app-shell.is-day-mode .detail-panel {
+    position: fixed;
+    z-index: 110;
+    top: 76px;
+    right: 12px;
+    bottom: 12px;
+    width: min(var(--detail-width), calc(100vw - 24px));
+    height: auto;
+    max-height: calc(100vh - 88px);
+    padding: 18px 16px;
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell.is-day-mode .detail-panel {
+    top: auto;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-height: 72vh;
+  }
+}
+
+/* 按工具栏实际可用宽度适配，也覆盖拖宽侧栏后的空间不足。 */
+@container planner-toolbar (max-width: 1100px) {
+  .range-title-row {
+    gap: 6px;
+  }
+  .range-title-row h2 {
+    font-size: 20px;
+  }
+  .view-switch {
+    grid-template-columns: repeat(3, 34px);
+  }
+  .view-button {
+    font-size: 12px;
+    min-height: 28px;
+  }
+  .header-actions {
+    gap: 5px;
+  }
+  .header-actions .text-button {
+    font-size: 12px;
+    padding-inline: 10px;
+  }
+  .header-actions .detail-toggle {
+    font-size: 10px;
+    padding-inline: 6px;
+  }
+  .search-shell {
+    min-width: 30px;
+    width: 30px;
+    margin-right: 2px;
+  }
+  .search-toggle {
+    display: block;
+  }
+  .search-popover {
+    display: none;
+    position: absolute;
+    z-index: 80;
+    top: calc(100% + 8px);
+    right: 0;
+    width: min(280px, calc(100vw - 32px));
+    padding: 8px;
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    background: var(--context-bg);
+    box-shadow: var(--shadow);
+  }
+  .search-shell.is-search-open .search-popover {
+    display: flex;
+  }
+  .search-popover > .search-icon {
+    left: 18px;
+  }
+  .search-popover input {
+    width: 100%;
+    min-height: 34px;
+  }
+  .search-popover #clearSearchButton {
+    right: 14px;
+  }
+  .search-shell .search-popover .search-results {
+    width: 100%;
+  }
+}
+
+@container planner-toolbar (max-width: 760px) {
+  .range-title-row h2 {
+    font-size: 17px;
+  }
+  .range-heading .eyebrow {
+    font-size: 10px;
+  }
+  .range-title-row,
+  .week-range-actions {
+    gap: 3px;
+  }
+  .week-range-actions .icon-button,
+  .header-actions .icon-button {
+    width: 24px;
+    min-width: 24px;
+    min-height: 26px;
+    font-size: 16px;
+  }
+  .view-switch {
+    grid-template-columns: repeat(3, 28px);
+    gap: 1px;
+  }
+  .view-button {
+    min-height: 26px;
+    font-size: 11px;
+  }
+  .header-actions {
+    gap: 3px;
+  }
+  .header-actions .text-button {
+    min-height: 28px;
+    font-size: 11px;
+    padding-inline: 8px;
+  }
+  .header-actions .detail-toggle {
+    font-size: 10px;
+    padding-inline: 5px;
+  }
+}

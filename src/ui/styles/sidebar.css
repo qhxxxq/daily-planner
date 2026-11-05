@@ -1,0 +1,782 @@
+/**
+ * 文件用途：侧栏与迷你日历外观。
+ * 定义列表、标签、归档区域和月份网格的视觉状态，配合 sidebar 模块生成的结构。
+ */
+.weekday-row,
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.weekday-row {
+  margin: 18px 0 8px;
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+.mini-day {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin: 0 auto;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 26px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.mini-day:hover {
+  background: var(--date-hover-bg);
+  color: var(--accent-pink);
+  box-shadow: none;
+}
+
+.mini-day.is-muted {
+  color: var(--text-muted);
+}
+
+.mini-day.is-muted:hover {
+  color: var(--accent-pink);
+}
+
+.mini-day.is-today {
+  background: var(--selected-day-bg);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.mini-day.has-events {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.mini-day.has-search-match {
+  color: var(--accent-strong);
+  border-color: color-mix(in srgb, var(--selected-day-bg) 58%, transparent);
+  background: color-mix(in srgb, var(--selected-day-bg) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--selected-day-bg) 52%, transparent);
+}
+
+.mini-day.is-muted.has-events {
+  color: var(--text-muted);
+}
+
+.mini-day.is-muted.has-search-match {
+  color: color-mix(in srgb, var(--accent-strong) 72%, var(--text-muted));
+}
+
+.mini-day.is-today.has-events {
+  background: var(--selected-day-bg);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.mini-day.is-today.has-search-match,
+.mini-day.is-selected.has-search-match {
+  background: var(--selected-day-bg);
+  color: #fff;
+  border-color: transparent;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--selected-day-bg) 24%, transparent),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+}
+
+.mini-day.is-today:hover {
+  background: var(--date-hover-bg);
+  color: var(--accent-pink);
+  box-shadow: none;
+}
+
+.mini-day.is-selected {
+  color: var(--accent-strong);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--selected-day-bg);
+}
+
+.mini-day.is-selected:hover {
+  background: var(--date-hover-bg);
+  color: var(--accent-pink);
+  box-shadow: none;
+}
+
+.mini-day.is-selected.is-today {
+  background: var(--selected-day-bg);
+  color: #fff;
+  box-shadow: none;
+}
+
+.mini-day.is-selected.is-today:hover {
+  background: var(--date-hover-bg);
+  color: var(--accent-pink);
+  box-shadow: none;
+}
+
+.source-list {
+  display: grid;
+  gap: 2px;
+  margin-top: 12px;
+}
+
+.tag-list {
+  margin-top: 4px;
+}
+
+.archived-sources {
+  display: grid;
+  gap: 2px;
+  margin-top: 10px;
+}
+
+.archived-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 30px;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 10px 0 16px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.archived-toggle::before {
+  content: '›';
+  margin-right: 7px;
+  color: var(--text-muted);
+  font-size: 14px;
+  transition: transform 140ms ease;
+}
+
+.archived-toggle[aria-expanded='true']::before {
+  transform: rotate(90deg);
+}
+
+.archived-toggle span {
+  margin-right: auto;
+}
+
+.archived-toggle small {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.archived-toggle:hover {
+  background: var(--hover-bg);
+  color: var(--accent-pink);
+}
+
+.archived-source-list {
+  display: grid;
+  gap: 2px;
+}
+
+.archived-source-list[hidden] {
+  display: none;
+}
+
+.archived-tags {
+  margin-top: 8px;
+}
+
+.archived-tag-list.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+  padding-left: 14px;
+}
+
+.archived-tag-list[hidden] {
+  display: none;
+}
+
+.source-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 30px;
+  padding: 3px 10px 3px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: grab;
+}
+
+.source-item:active {
+  cursor: grabbing;
+}
+
+.source-item.is-renaming-source,
+.source-item.is-renaming-source:active {
+  cursor: text;
+}
+
+.source-item.is-selected {
+  background: var(--accent-soft);
+  border-color: transparent;
+}
+
+body[data-theme='coral'] .source-item.is-selected {
+  background: var(--accent-soft);
+}
+
+.source-item.is-archived-source {
+  color: var(--text-muted);
+  cursor: default;
+  opacity: 0.78;
+}
+
+.tag-item.is-archived-tag {
+  opacity: 0.62;
+}
+
+.tag-item.is-archived-tag:hover {
+  opacity: 0.9;
+}
+
+.source-item.is-source-dragging,
+#tagList.tag-list .tag-item.is-source-dragging {
+  opacity: 0.48;
+}
+
+.source-item.is-source-drop-before::before,
+.source-item.is-source-drop-after::after,
+#tagList.tag-list .tag-item.is-source-drop-before::before,
+#tagList.tag-list .tag-item.is-source-drop-after::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 10px;
+  height: 2px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--selected-day-bg) 76%, #fff);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--selected-day-bg) 14%, transparent);
+}
+
+.source-item.is-source-drop-before::before {
+  top: -2px;
+}
+
+.source-item.is-source-drop-after::after {
+  bottom: -2px;
+}
+
+#tagList.tag-list .tag-item.is-source-drop-before::before,
+#tagList.tag-list .tag-item.is-source-drop-after::after {
+  top: 4px;
+  bottom: 4px;
+  left: auto;
+  right: auto;
+  width: 2px;
+  height: auto;
+}
+
+#tagList.tag-list .tag-item.is-source-drop-before::before {
+  left: -3px;
+}
+
+#tagList.tag-list .tag-item.is-source-drop-after::after {
+  right: -3px;
+}
+
+.source-item.is-archived-source:hover {
+  background: var(--hover-bg);
+  opacity: 1;
+}
+
+.tag-item {
+  min-height: 40px;
+  padding: 3px 10px 3px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.tag-item:hover {
+  background: color-mix(in srgb, var(--selected-day-bg) 10%, transparent);
+}
+
+.tag-item.is-selected {
+  background: color-mix(in srgb, var(--selected-day-bg) 18%, #fff);
+}
+
+body[data-theme='coral'] .tag-item.is-selected {
+  background: color-mix(in srgb, var(--selected-day-bg) 24%, #fff);
+}
+
+.tag-item:active {
+  cursor: pointer;
+}
+
+.tag-item .source-chip {
+  gap: 9px;
+}
+
+.tag-item .source-name {
+  color: color-mix(in srgb, var(--ink) 82%, var(--text-secondary));
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tag-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 18%, transparent);
+  color: color-mix(in srgb, var(--tag-color, var(--accent-pink)) 80%, var(--text-secondary));
+  font-size: 10.5px;
+  font-weight: 650;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.tag-count {
+  min-width: 18px;
+  color: color-mix(in srgb, var(--text-muted) 78%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tag-count.is-empty {
+  opacity: 0.42;
+}
+
+.tag-empty {
+  padding: 5px 10px 5px 16px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+#tagList.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 12px;
+  min-height: 34px;
+}
+
+#tagList.tag-list .tag-item {
+  flex: 0 1 auto;
+  width: auto;
+  max-width: 100%;
+  min-height: 24px;
+  padding: 0 8px;
+  border: 1px solid color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 20%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 8%, transparent);
+  color: color-mix(in srgb, var(--tag-color, var(--accent-pink)) 72%, var(--text-secondary));
+  font-size: 12px;
+  font-weight: 560;
+  line-height: 1;
+}
+
+#tagList.tag-list .tag-item:hover {
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 14%, #fff);
+}
+
+#tagList.tag-list .tag-item.is-selected {
+  border-color: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 38%, #fff);
+  background: color-mix(in srgb, var(--tag-color, var(--selected-day-bg)) 18%, #fff);
+}
+
+.source-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.source-check {
+  background: var(--source-color);
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 5px;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.source-check::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 5px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: translate(-50%, -60%) rotate(-45deg);
+  transform-origin: center;
+}
+
+.source-item.is-hidden-source .source-check {
+  background: transparent !important;
+  border: 1px solid var(--border-soft);
+}
+
+.source-item.is-hidden-source .source-check::after {
+  display: none;
+}
+
+.source-item.is-hidden-source .source-name {
+  color: var(--text-muted);
+}
+
+.source-name-wrap {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.source-name {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-name-input {
+  width: 100%;
+  min-width: 0;
+  max-width: 128px;
+  height: 22px;
+  padding: 0 7px;
+  border: 1px solid color-mix(in srgb, var(--selected-day-bg) 36%, transparent);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.55),
+    0 0 0 2px color-mix(in srgb, var(--selected-day-bg) 14%, transparent);
+}
+
+.source-name-input:focus {
+  border-color: color-mix(in srgb, var(--selected-day-bg) 58%, transparent);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.source-count {
+  display: inline-grid;
+  place-items: center;
+  height: 20px;
+  padding: 0 5px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+  min-width: 1.2em;
+  text-align: right;
+}
+
+.source-count:not(:disabled) {
+  color: var(--accent-pink);
+  cursor: pointer;
+}
+
+.source-count:not(:disabled):hover {
+  background: color-mix(in srgb, var(--selected-day-bg) 18%, transparent);
+}
+
+.source-count:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
+.source-type {
+  min-width: 32px;
+  padding: 2px 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.source-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.source-actions .text-button {
+  min-height: 32px;
+  padding: 0 11px;
+  border-radius: 12px;
+  background: var(--button-soft-bg);
+  color: var(--accent-pink);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.source-actions .text-button:hover,
+.source-actions .text-button.is-active {
+  background: var(--date-hover-bg);
+  color: var(--accent-pink);
+}
+
+.import-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.import-button svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.2;
+}
+
+.source-tools {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.source-tools.is-locatable {
+  cursor: pointer;
+}
+
+.source-tools.is-locatable .source-count,
+.source-tools.is-locatable .source-type {
+  cursor: pointer;
+}
+
+.source-tool {
+  display: none;
+  place-items: center;
+  min-width: 30px;
+  height: 22px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.source-item:hover .source-tool,
+.source-item:focus-within .source-tool {
+  display: grid;
+}
+
+.source-tool:hover {
+  background: var(--hover-bg);
+}
+
+.icon-button:hover,
+.text-button:hover,
+.view-button:hover,
+.source-item:hover {
+  background-color: var(--hover-bg);
+}
+
+.primary-button:hover {
+  box-shadow: 0 6px 16px rgba(123, 127, 244, 0.16);
+}
+
+.danger-button:hover {
+  box-shadow: 0 6px 16px rgba(207, 78, 134, 0.12);
+}
+
+.mini-calendar {
+  margin-top: auto;
+  padding: 16px 14px 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+/* 侧栏独立缩窄时，压缩装饰间距，为名称、计数和日期保留空间。 */
+@container sidebar (max-width: 210px) {
+  .calendar-sources .section-title,
+  .tag-sources .section-title {
+    padding-inline: 6px;
+    gap: 6px;
+  }
+
+  .calendar-sources h2,
+  .tag-sources h2 {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .source-actions .text-button {
+    min-height: 28px;
+    padding-inline: 7px;
+    font-size: 11px;
+    border-radius: 9px;
+  }
+
+  .import-button {
+    gap: 4px;
+  }
+
+  .source-item {
+    padding-inline: 6px;
+    gap: 5px;
+    min-height: 32px;
+  }
+
+  .source-chip {
+    gap: 7px;
+  }
+
+  .source-name {
+    display: block;
+    font-size: 12px;
+  }
+
+  .source-check {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+  }
+
+  .source-tools {
+    gap: 3px;
+  }
+
+  .source-count {
+    padding-inline: 2px;
+    font-size: 10px;
+  }
+
+  .source-type {
+    min-width: 28px;
+    padding-inline: 4px;
+    font-size: 9px;
+    white-space: nowrap;
+  }
+
+  .archived-toggle {
+    padding-inline: 8px;
+    font-size: 11px;
+  }
+
+  .tag-sources {
+    margin-top: 44px;
+    padding-bottom: 24px;
+  }
+
+  #tagList.tag-list {
+    gap: 5px;
+    margin-top: 8px;
+  }
+
+  #tagList.tag-list .tag-item {
+    min-height: 22px;
+    padding-inline: 7px;
+    gap: 4px;
+    font-size: 11px;
+  }
+
+  #tagList .tag-count {
+    min-width: 14px;
+    font-size: 10px;
+  }
+
+  .mini-calendar {
+    padding-inline: 4px;
+  }
+
+  .month-control {
+    gap: 4px;
+  }
+
+  .month-control .icon-button {
+    width: 24px;
+    min-width: 24px;
+    min-height: 26px;
+    font-size: 16px;
+  }
+
+  #miniMonthLabel {
+    min-width: 0;
+    font-size: 12px;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .weekday-row,
+  .mini-grid {
+    column-gap: 2px;
+    row-gap: 4px;
+  }
+
+  .weekday-row {
+    margin: 12px 0 6px;
+    font-size: 10px;
+  }
+
+  .mini-day {
+    width: 100%;
+    max-width: 24px;
+    height: auto;
+    aspect-ratio: 1;
+    min-width: 0;
+    font-size: 11px;
+    line-height: 1;
+  }
+}
+
+.data-file {
+  padding: 0 14px;
+}
+
+.data-file[hidden] {
+  display: none;
+}
+
+/* Original pink theme colors. */
+body[data-theme='coral'] .source-item.is-selected {
+  background: rgba(224, 228, 233, 0.95);
+}
+
+body[data-theme='coral'] .source-item.is-selected {
+  background: rgba(244, 142, 163, 0.34);
+}
+
+body[data-theme='coral'] .source-actions .text-button {
+  background: rgba(255, 230, 234, 0.72);
+}

@@ -1,0 +1,10 @@
+index.html
+build/app.css
+vendor/ical.cjs
+vendor/ical-LICENSE.txt
+vendor/README.md
+manifest.webmanifest
+sw.js
+assets/icons/AppIcon.png
+build/app.js
+build/app.js.map

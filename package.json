@@ -1,0 +1,25 @@
+{
+  "name": "daily-planner",
+  "version": "1.6.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.core.json",
+    "test": "tsx scripts/build.ts --tests && tsx --test tests/*/*.test.ts",
+    "check": "npm run typecheck && npm test",
+    "dev": "npm run build && tsx scripts/serve.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.css\" \"scripts/*.ts\" \"tests/**/*.ts\" \"config/*.ts\"",
+    "benchmark": "tsx tests/search/benchmark-search.ts"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^26.6.3",
+    "@types/wicg-file-system-access": "^2023.10.7",
+    "esbuild": "^0.28.2",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  }
+}

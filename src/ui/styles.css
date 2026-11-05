@@ -1,0 +1,19 @@
+/**
+ * 文件用途：样式聚合入口。
+ * 按既有顺序导入各区域样式，顺序决定层叠覆盖关系；具体规则在 styles 目录维护。
+ */
+/* 导入顺序保留既有层叠关系；调整顺序可能改变相同选择器的最终样式。 */
+@import './styles/base.css';
+@import './styles/shell.css';
+@import './styles/sidebar.css';
+@import './styles/menus.css';
+@import './styles/search.css';
+@import './styles/calendar.css';
+@import './styles/event-cards.css';
+@import './styles/editor.css';
+@import './styles/editor-tags.css';
+@import './styles/editor-pickers.css';
+@import './styles/responsive.css';
+@import './styles/sync.css';
+@import './styles/feedback.css';
+@import './styles/dark-theme.css';

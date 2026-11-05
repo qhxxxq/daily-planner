@@ -1,0 +1,680 @@
+/**
+ * 文件用途：日历时间轴与全天区域外观。
+ * 定义日期列、时间刻度、网格和当前时间标记，列数及尺寸通过 CSS 变量与渲染逻辑衔接。
+ */
+.calendar-view {
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  border: 0;
+  border-radius: 0;
+  background: var(--panel);
+  box-shadow: none;
+  user-select: none;
+  scrollbar-width: none;
+}
+
+.calendar-view::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.calendar-view {
+  margin-top: 10px;
+}
+
+.timeline-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: grid;
+  grid-template-columns: var(--time-axis-width) repeat(var(--day-count), minmax(0, 1fr));
+  min-width: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid var(--grid-line);
+  backdrop-filter: blur(12px);
+}
+
+.all-day-label,
+.all-day-cell {
+  min-height: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--grid-line) 70%, transparent);
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.all-day-label {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 6px 8px 3px;
+  border-right: 1px solid var(--grid-line);
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.all-day-cell {
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  min-width: 0;
+  padding: 3px 6px;
+  border-right: 1px solid var(--grid-line);
+  cursor: cell;
+}
+
+.all-day-cell:last-child {
+  border-right: 0;
+}
+
+.timeline-body {
+  display: grid;
+  grid-template-columns: var(--time-axis-width) 1fr;
+  min-width: 0;
+  width: 100%;
+  background: var(--panel);
+}
+
+.time-axis {
+  position: relative;
+  border-right: 1px solid var(--grid-line);
+  background: var(--panel);
+}
+
+.time-label {
+  position: absolute;
+  right: 8px;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.time-label:first-child {
+  transform: translateY(4px);
+}
+
+.now-time-label {
+  position: absolute;
+  right: 5px;
+  z-index: 6;
+  min-width: 34px;
+  padding: 2px 4px;
+  border-radius: 999px;
+  background: var(--selected-day-bg);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  transform: translateY(-50%);
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline-columns {
+  display: grid;
+  min-width: 0;
+}
+
+.day-columns {
+  grid-template-columns: minmax(420px, 1fr);
+}
+
+.week-columns {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.timeline-column {
+  position: relative;
+  min-width: 0;
+  border-right: 1px solid var(--grid-line);
+  touch-action: none;
+  user-select: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent calc(var(--hour-height) - 1px),
+      var(--grid-line) calc(var(--hour-height) - 1px),
+      var(--grid-line) var(--hour-height)
+    ),
+    var(--panel);
+}
+
+.timeline-column:last-child {
+  border-right: 0;
+}
+
+.timeline-column.is-selected-day {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0,
+      rgba(255, 255, 255, 0) calc(var(--hour-height) - 1px),
+      var(--grid-line) calc(var(--hour-height) - 1px),
+      var(--grid-line) var(--hour-height)
+    ),
+    var(--panel-soft);
+}
+
+.now-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  height: 0;
+  border-top: 2px solid var(--selected-day-bg);
+  pointer-events: none;
+}
+
+.now-line span {
+  position: absolute;
+  left: -4px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--selected-day-bg);
+}
+
+.hour-row {
+  display: grid;
+  grid-template-columns: var(--time-axis-width) 1fr;
+  min-height: var(--hour-height);
+  border-bottom: 1px solid var(--grid-line);
+}
+
+.hour-row:last-child {
+  border-bottom: 0;
+}
+
+.hour-label {
+  padding: 8px 8px;
+  color: var(--muted);
+  font-size: 11px;
+  text-align: right;
+  border-right: 1px solid var(--grid-line);
+}
+
+.hour-events {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 8px;
+  min-width: 0;
+  min-height: var(--hour-height);
+}
+
+.hour-events.is-dragging,
+.week-cell.is-dragging,
+.timeline-column.is-dragging {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--drag-column-bg) 0,
+    var(--drag-column-bg) calc(var(--hour-height) - 1px),
+    var(--drag-column-line) calc(var(--hour-height) - 1px),
+    var(--drag-column-line) var(--hour-height)
+  );
+}
+
+.drag-preview {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  pointer-events: none;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  min-height: 18px;
+  border: 1px solid var(--event-border, rgba(123, 127, 244, 0.35));
+  border-left: 3px solid var(--event-color, var(--accent));
+  border-radius: 6px;
+  background: var(
+    --event-bg,
+    linear-gradient(135deg, rgba(123, 127, 244, 0.14), rgba(240, 108, 174, 0.12))
+  );
+  color: var(--event-category-text, var(--accent-pink));
+  font-size: 12px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.selection-rect {
+  position: fixed;
+  z-index: 60;
+  border: 1px solid var(--selection-border);
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--selection-bg-1), var(--selection-bg-2));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.week-view {
+  overflow-x: auto;
+}
+
+.week-header,
+.week-row {
+  display: grid;
+  grid-template-columns: var(--time-axis-width) repeat(7, minmax(118px, 1fr));
+}
+
+.week-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+.week-spacer {
+  border-right: 0;
+}
+
+.week-day-head {
+  min-height: 42px;
+  padding: 4px 5px 3px;
+  border-right: 0;
+  background: var(--panel);
+  text-align: center;
+}
+
+.week-day-head:last-child,
+.week-cell:last-child {
+  border-right: 0;
+}
+
+.week-day-head button {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  padding: 1px 3px;
+  background: transparent;
+  color: var(--ink);
+  transition:
+    background-color 110ms ease,
+    color 110ms ease,
+    transform 110ms ease;
+  will-change: transform;
+}
+
+.week-day-head button:hover {
+  background: var(--date-hover-bg);
+  transform: translateY(-1px);
+}
+
+.week-day-head.is-selected button {
+  background: transparent;
+  color: var(--accent-pink);
+  box-shadow: none;
+}
+
+.week-day-head.is-selected button:hover {
+  background: var(--date-hover-bg);
+}
+
+.week-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 24px;
+}
+
+.week-name {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  transition: color 110ms ease;
+}
+
+.week-date {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color 110ms ease,
+    color 110ms ease,
+    box-shadow 110ms ease,
+    transform 110ms ease;
+  will-change: transform;
+}
+
+.week-day-head button:hover .week-date {
+  background: var(--date-hover-bg);
+  color: var(--accent-pink);
+  box-shadow: none;
+}
+
+.week-day-head button:hover .week-name,
+.week-day-head button:hover .week-subtitle {
+  color: var(--accent-pink);
+}
+
+.week-day-head.is-today .week-date {
+  background: var(--selected-day-bg);
+  color: #fff;
+  box-shadow: none;
+}
+
+.week-day-head.is-today button:hover .week-date {
+  background: color-mix(in srgb, var(--selected-day-bg) 88%, var(--accent-pink));
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(146, 70, 89, 0.18);
+}
+
+.week-day-head.is-selected .week-date {
+  color: var(--accent-strong);
+  background: transparent;
+  box-shadow: none;
+}
+
+.week-day-head.is-selected .week-name,
+.week-day-head.is-selected .week-subtitle {
+  color: var(--accent-pink);
+}
+
+.week-day-head.is-selected button:hover .week-date {
+  background: var(--date-hover-bg);
+  color: var(--accent-pink);
+  box-shadow: none;
+}
+
+.week-day-head.is-selected.is-today .week-date {
+  background: var(--selected-day-bg);
+  color: #fff;
+  box-shadow: none;
+}
+
+.week-day-head.is-selected.is-today button:hover .week-date {
+  background: var(--selected-day-bg);
+  color: #fff;
+  box-shadow: none;
+}
+
+.week-day-head.is-selected.is-today button:active .week-date {
+  background: var(--selected-day-bg);
+  color: #fff;
+  box-shadow: none;
+}
+
+.week-subtitle {
+  display: block;
+  margin-top: 0;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  line-height: 1.1;
+  transition: color 110ms ease;
+}
+
+.week-row {
+  min-height: 76px;
+  border-bottom: 1px solid var(--grid-line);
+}
+
+.week-row:last-child {
+  border-bottom: 0;
+}
+
+.week-cell {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-height: 76px;
+  padding: 6px;
+  border-right: 1px solid var(--grid-line);
+  background: var(--panel);
+}
+
+/* Original pink theme colors. */
+body[data-theme='coral'] .timeline-column.is-selected-day {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0,
+      rgba(255, 255, 255, 0) calc(var(--hour-height) - 1px),
+      var(--grid-line) calc(var(--hour-height) - 1px),
+      var(--grid-line) var(--hour-height)
+    ),
+    rgba(255, 248, 247, 0.56);
+}
+
+/* 月历沿用主题变量，日程色只用于标记与全天横条。 */
+.month-view {
+  display: flex;
+  flex-direction: column;
+  container: month-calendar / inline-size;
+}
+
+.month-weekdays,
+.month-week,
+.month-all-day-bars {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.month-weekdays {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  flex: 0 0 32px;
+  align-items: center;
+  border-bottom: 1px solid var(--grid-line);
+  background: var(--panel);
+  color: var(--text-secondary);
+  text-align: right;
+  font-size: 12px;
+}
+
+.month-weekdays > span {
+  padding-right: 10px;
+}
+.month-weekdays .is-weekend {
+  color: var(--text-muted);
+}
+
+.month-grid {
+  display: grid;
+  grid-template-rows: repeat(6, minmax(120px, 1fr));
+  flex: 1 0 720px;
+}
+
+.month-week {
+  position: relative;
+  min-height: 0;
+}
+
+.month-day {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--grid-line);
+  border-bottom: 1px solid var(--grid-line);
+}
+
+.month-day:last-of-type {
+  border-right: 0;
+}
+.month-day.is-weekend {
+  background: color-mix(in srgb, var(--text-muted) 4%, var(--panel));
+}
+.month-day.is-outside-month .month-day-heading {
+  opacity: 0.38;
+}
+.month-day.is-outside-month .month-day-events {
+  opacity: 0.65;
+}
+
+.month-day-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 0 0 34px;
+  gap: 2px;
+  padding: 3px 6px;
+  color: var(--text-primary);
+}
+
+.month-lunar {
+  color: var(--text-muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.month-date {
+  min-width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 14px;
+  padding: 0 5px;
+  background: transparent;
+  color: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.month-date:hover {
+  background: var(--hover-bg);
+}
+.month-day.is-today .month-date {
+  background: var(--accent);
+  color: var(--panel);
+}
+
+.month-day-events {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  margin-top: calc(var(--all-day-rows, 0) * 22px);
+  padding: 2px 3px 6px;
+}
+
+.month-event {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  height: 21px;
+  min-width: 0;
+  border: 0;
+  border-radius: 4px;
+  padding: 1px 4px;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 11px;
+  line-height: 18px;
+  text-align: left;
+  cursor: pointer;
+}
+.month-event::before {
+  content: '';
+  flex: 0 0 3px;
+  height: 13px;
+  border-radius: 2px;
+  background: var(--event-color);
+}
+.month-event-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.month-event-time {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.month-event.is-completed {
+  opacity: 0.65;
+}
+.month-event.is-abandoned .month-event-title {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.month-event:hover {
+  background: var(--hover-bg);
+}
+.month-date:focus-visible,
+.month-day-events:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.month-all-day-bars {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  right: 0;
+  grid-auto-rows: 22px;
+  max-height: 66px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  pointer-events: none;
+}
+.month-event.is-all-day {
+  pointer-events: auto;
+  margin: 0 2px;
+  width: calc(100% - 4px);
+  background: color-mix(in srgb, var(--event-color) 22%, var(--panel));
+  color: color-mix(in srgb, var(--event-color) 30%, var(--text-primary));
+  border-radius: 5px;
+}
+.month-event.is-all-day:hover {
+  background: color-mix(in srgb, var(--event-color) 38%, var(--panel));
+}
+
+/* 选中时加强所属日历的色系，全天横条和普通日程保持一致。 */
+.month-event.is-selected,
+.month-event:focus-visible {
+  background: color-mix(in srgb, var(--event-color) 22%, var(--panel));
+  outline: 1px solid color-mix(in srgb, var(--event-color) 72%, var(--panel));
+  outline-offset: -1px;
+}
+.month-event.is-all-day.is-selected,
+.month-event.is-all-day:focus-visible {
+  background: color-mix(in srgb, var(--event-color) 38%, var(--panel));
+}
+.month-event.continues-before {
+  margin-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.month-event.continues-after {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+@container month-calendar (max-width: 800px) {
+  .month-day-heading {
+    padding-inline: 3px;
+  }
+  .month-lunar {
+    font-size: 9px;
+  }
+  .month-date {
+    font-size: 12px;
+  }
+  .month-event {
+    font-size: 10px;
+    gap: 3px;
+    padding-inline: 2px;
+  }
+  .month-event-time {
+    font-size: 9px;
+  }
+}

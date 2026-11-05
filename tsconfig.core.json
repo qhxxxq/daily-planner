@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "strict": true },
+  "include": [
+    "src/types/model.ts", "src/domain/date-time.ts", "src/domain/math.ts", "src/domain/html.ts", "src/domain/tags.ts", "src/domain/events.ts", "src/domain/event-time.ts", "src/domain/clone.ts",
+    "src/storage/planner-storage.ts", "src/search/planner-search.ts", "src/editor/undo.ts", "src/editor/planner-editor.ts", "src/sync/apple-sync.ts"
+  ]
+}

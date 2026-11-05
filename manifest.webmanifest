@@ -1,0 +1,25 @@
+{
+  "name": "日程",
+  "short_name": "日程",
+  "description": "本地优先、支持多设备同步的日历与待办工具",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#3a3033",
+  "theme_color": "#3a3033",
+  "icons": [
+    {
+      "src": "assets/icons/AppIcon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/AppIcon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
